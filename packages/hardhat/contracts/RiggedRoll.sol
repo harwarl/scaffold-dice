@@ -6,6 +6,7 @@ import "./DiceGame.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract RiggedRoll is Ownable {
+    error DiceRollGreaterThan5();
 
     DiceGame public diceGame;
 
@@ -38,7 +39,9 @@ contract RiggedRoll is Ownable {
 
         uint256 predictedRoll = uint256(chash) % 16;
 
-        console.log("predicted roll -", predictedRoll );
+        if(predictedRoll > 5){
+            revert DiceRollGreaterThan5();
+        }
         
         diceGame.rollTheDice{value: 0.002 ether}();
     }
